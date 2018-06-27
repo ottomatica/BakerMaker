@@ -1,4 +1,5 @@
-minimal-kernel
-minimal-cmdline
-minimal-initrd.img
+*-kernel
+*-cmdline
+*-initrd.img
+*-state/
 node_modules/
