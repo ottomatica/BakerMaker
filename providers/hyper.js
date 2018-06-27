@@ -12,14 +12,14 @@ class Hyper {
         });
     }
 
-    async start(name)
+    async start(name, ip)
     {
         console.log(`Starting ${name}`);
-        const subprocess = child_process.spawn('linuxkit', ['run', `${name}`], {
+        const subprocess = child_process.spawn('linuxkit', ['run', `${name}`, `-ip`, `${ip}`], {
             detached: true,
             stdio: 'ignore'
         });
-          
+        
         subprocess.unref();
     }
 

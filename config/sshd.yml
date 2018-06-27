@@ -1,0 +1,33 @@
+kernel:
+  image: linuxkit/kernel:4.14.51
+  cmdline: "console=tty0 console=ttyS0 console=ttyAMA0 console=ttysclp0"
+init:
+  - linuxkit/init:923355a5ed75f40ee394741829d42bf4b78cce46
+  - linuxkit/runc:v0.4
+  - linuxkit/containerd:f2bc1bda1ab18146967fa1a149800aaf14bee81b
+  - linuxkit/ca-certificates:v0.4
+onboot:
+  - name: sysctl
+    image: linuxkit/sysctl:v0.4
+  - name: rngd1
+    image: linuxkit/rngd:v0.4
+    command: ["/sbin/rngd", "-1"]
+services:
+  - name: getty
+    image: linuxkit/getty:44730fd0a7c59dbacf5b48b54ba33f551bcf7ef0
+    env:
+     - INSECURE=true
+  - name: rngd
+    image: linuxkit/rngd:v0.4
+  - name: dhcpcd
+    image: linuxkit/dhcpcd:v0.4
+  - name: sshd
+    image: linuxkit/sshd:2c7e6e36bd0ffa2b3d950cf9128da89ba3375dbb
+files:
+  - path: root/.ssh/authorized_keys
+    source: ~/.ssh/id_rsa.pub
+    mode: "0600"
+    optional: true
+trust:
+  org:
+    - linuxkit
