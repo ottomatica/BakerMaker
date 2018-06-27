@@ -15,7 +15,7 @@ class Hyper {
     async start(name, ip)
     {
         console.log(`Starting ${name}`);
-        const subprocess = child_process.spawn('linuxkit', ['run', `${name}`, `-ip`, `${ip}`], {
+        const subprocess = child_process.spawn('linuxkit', ['run', `-ip`, `${ip}`, `${name}`], {
             detached: true,
             stdio: 'ignore'
         });
@@ -26,6 +26,17 @@ class Hyper {
     async halt()
     {
 
+    }
+
+    // Prereq
+    // docker build -t ssh .
+    // FROM alpine:edge
+    // RUN apk add --no-cache openssh-client
+    async ssh(ip)
+    {
+        child_process.execSync(`docker run --rm -ti -v ~/.ssh:/root/.ssh  ssh ssh ${ip}`, {
+            stdio: ['inherit', 'inherit', 'inherit']
+        });        
     }
 
 }

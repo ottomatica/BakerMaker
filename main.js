@@ -8,5 +8,7 @@ async function main()
 
     await hyperProvider.bake("config/sshd.yml");
     hyperProvider.start("sshd", "192.168.65.100");
+
+    hyperProvider.ssh("192.168.65.100");
     
 }
