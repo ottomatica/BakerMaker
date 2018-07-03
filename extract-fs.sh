@@ -1,10 +1,20 @@
 #!/bin/bash
+
+# terminate early if commands fail
+set -e 
+set -o pipefail
+
+# cleanup tmp dirs
 rm -rf alpine-tmp alpine-vm
 
+# Use docker to build image
 docker build -t alpine-vm .
+# Run a container and use export/import to flatten layers
 ID=$(docker run -it -d alpine-vm sh)
 docker export $ID | docker import - alpine-vm-flat
 docker save alpine-vm-flat > alpine.tar
+docker stop $ID
+docker rm $ID
 
 mkdir -p alpine-tmp alpine-vm
 mv alpine.tar alpine-tmp
