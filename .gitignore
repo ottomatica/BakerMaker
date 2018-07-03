@@ -3,3 +3,5 @@
 *-initrd.img
 *-state/
 node_modules/
+alpine-vm/
+alpine-tmp/
