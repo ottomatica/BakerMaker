@@ -3,6 +3,7 @@
 ### Preqs
 
 * docker
+* gtar
 * hyperkit
 
 ### Using Baker for Mac
