@@ -12,7 +12,7 @@ RUN mkdir -p /lib/mdev
 # Deleted cached packages
 RUN rm -rf /var/cache/apk/*
 
-COPY init /init
+COPY files/init /init
 COPY files/bin /bin/
 COPY files/etc/ /etc/
 COPY files/usr/ /usr/
