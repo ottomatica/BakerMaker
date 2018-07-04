@@ -1,5 +1,19 @@
 #!/bin/sh
 
+#touch /run/openrc/softlevel
+#/etc/init.d/sshd start
 
+#  add a boot service to $sysroot
+rc_add() {
+	mkdir -p $sysroot/etc/runlevels/$2
+	ln -sf /etc/init.d/$1 $sysroot/etc/runlevels/$2/$1
+}
+
+rc_add sshd default
+rc_add dhcpcd default
+#rc_add urandom default
+
+#/sbin/openrc boot
 
 exec /sbin/init
+#exec /sbin/openrc-init

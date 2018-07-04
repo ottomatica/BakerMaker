@@ -1,4 +1,8 @@
 FROM alpine:latest AS build
+RUN mkdir -p /lib/apk/db /run
+RUN apk add --no-cache --initdb openrc
+
+FROM alpine:latest AS install
 # the public key that is authorized to connect to this instance.
 ARG SSHPUBKEY
 
@@ -11,17 +15,27 @@ RUN apk add --no-cache --initdb alpine-baselayout apk-tools busybox ca-certifica
     dhcpcd 
     #openrc
 
-# Add /etc/ssl/certs so it can be bind-mounted into metadata package
+
 RUN mkdir -p /etc/ssl/certs
 RUN mkdir -p /lib/firmware
 RUN mkdir -p /lib/mdev
 RUN mkdir -p /lib/modules
+RUN mkdir -p /lib/rc
+
+# don't want all the /etc stuff from openrc -- only tools
+# https://pkgs.alpinelinux.org/contents?repo=main&page=2&arch=x86_64&branch=v3.8&name=openrc
+COPY --from=build /lib/ /lib/
+COPY --from=build /bin /bin
+COPY --from=build /sbin /sbin
+
+COPY --from=build /etc/ /etc/
 
 # Deleted cached packages
 RUN rm -rf /var/cache/apk/*
 
 # remove some config relying on openrc
-RUN rm -rf /etc/init.d/dhcpcd /etc/init.d/sshd
+#RUN rm -rf /etc/init.d/dhcpcd 
+# /etc/init.d/sshd
 
 COPY files/init /init
 COPY files/bin /bin/
