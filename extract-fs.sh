@@ -8,7 +8,7 @@ set -o pipefail
 rm -rf alpine-tmp alpine-vm
 
 # Use docker to build image
-docker build -t alpine-vm .
+docker build -t alpine-vm --build-arg SSHPUBKEY="$(cat ~/.ssh/id_rsa.pub)" .
 # Run a container and use export/import to flatten layers
 ID=$(docker run -it -d alpine-vm sh)
 docker export $ID | docker import - alpine-vm-flat
