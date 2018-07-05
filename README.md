@@ -14,10 +14,10 @@ Build initramfs filesystem (places in /tmp/file.img.gz)
 ./extract-fs.sh
 ```
 
-Running in vm with hyperkit:
+Running vm using hyperkit/vpnkit:
 
 ```
-./hyperkitrun.sh
+./bakerformac.sh
 ```
 
 ### Output
