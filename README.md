@@ -20,6 +20,11 @@ Running vm using hyperkit/vpnkit:
 ./bakerformac.sh
 ```
 
+### network
+
+https://forums.docker.com/t/confused-about-networking-defaults-how-to-get-vm-ip-with-native-port-forwarding-off/10858/12
+
+
 ### Output
 
 ```
