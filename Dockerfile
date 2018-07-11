@@ -9,12 +9,15 @@ ARG SSHPUBKEY
 USER root 
 RUN mkdir -p /lib/apk/db /run
 
-RUN apk add --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates musl tini util-linux \
-    openssh openssh-client \
+RUN rm -rf /var/cache/apk && mkdir /var/cache/apk
+
+RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates musl tini util-linux \
+    openssh openssh-client ansible docker \
     #bash iproute2 iptables ebtables ipvsadm bridge-utils \
     dhcpcd 
     #openrc
 
+RUN rm -rf /var/cache/apk && mkdir /var/cache/apk
 
 RUN mkdir -p /etc/ssl/certs
 RUN mkdir -p /lib/firmware
