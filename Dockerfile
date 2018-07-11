@@ -12,7 +12,7 @@ RUN mkdir -p /lib/apk/db /run
 RUN rm -rf /var/cache/apk && mkdir /var/cache/apk
 
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates musl tini util-linux \
-    openssh openssh-client ansible docker \
+    openssh openssh-client rng-tools ansible \
     #bash iproute2 iptables ebtables ipvsadm bridge-utils \
     dhcpcd 
     #openrc
