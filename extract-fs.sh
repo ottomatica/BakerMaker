@@ -25,6 +25,10 @@ echo "extracting layer.tar"
 # https://github.com/docker/for-mac/issues/1578
 cd ../alpine-vm && gtar -xf layer.tar
 rm layer.tar
+
+#echo "copy randomness"
+#cat /dev/urandom | head -c 5000 > etc/random-seed || echo $?
+
 echo "creating /tmp/file.img"
 find . | cpio -o -H newc > /tmp/file.img;
 echo "compressing img"
