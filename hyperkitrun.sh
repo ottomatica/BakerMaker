@@ -20,9 +20,13 @@ fi
 
 #IMG_CD="-s 3,ahci-cd,/somepath/somefile.iso"
 #IMG_HDD="-s 4,virtio-blk,/somepath/somefile.img"
+PORT="-s 5,virtio-9p,path=/tmp/bakerformac.port.socket,tag=port"
 PCI_DEV="-s 0:0,hostbridge -s 31,lpc"
 LPC_DEV="-l com1,stdio"
 ACPI="-A"
 #UUID="-U deadbeef-dead-dead-dead-deaddeafbeef"
 
-hyperkit $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD $UUID -f kexec,$KERNEL,$INITRD,"$CMDLINE"
+FORWARD="-s 7,virtio-sock,guest_cid=3,path=/tmp/,guest_forwards=2000"
+RND="-s 2,virtio-rnd"
+
+hyperkit $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $PORT $FORWARD $IMG_CD $IMG_HDD $UUID -f kexec,$KERNEL,$INITRD,"$CMDLINE"
