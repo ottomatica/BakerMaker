@@ -20,7 +20,12 @@ rc_add rngd default
 
 #/sbin/openrc boot
 
-export RNGD_OPTS="-r /dev/urandom"
+#export RNGD_OPTS="-r /dev/urandom"
+chown -R root:root /root
+
+# 9p-virtio
+mkdir /port
+mount -t 9p -o trans=virtio,version=9p2000.L port /port
 
 exec /sbin/init
 #exec /sbin/openrc-init
