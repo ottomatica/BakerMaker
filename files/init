@@ -27,5 +27,13 @@ chown -R root:root /root
 mkdir /port
 mount -t 9p -o trans=virtio,version=9p2000.L port /port
 
+# load kernel modules
+if [ -f /etc/modules ] ; then
+	sed 's/\#.*//g' < /etc/modules |
+	while read module args; do
+		modprobe -q $module $args
+	done
+fi
+
 exec /sbin/init
 #exec /sbin/openrc-init

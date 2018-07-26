@@ -29,6 +29,11 @@ RUN mkdir -p /lib/apk/db /run
 RUN rm -rf /var/cache/apk && mkdir /var/cache/apk
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.8/community" >> /etc/apk/repositories
 
+# Get some modules for virtio
+#COPY --from=kernel /lib/modules/4.14.52-0-virt/kernel/drivers/virtio/virtio.ko /lib/modules/4.14.52-0-virt/kernel/drivers/virtio/virtio.ko
+#COPY --from=kernel /lib/modules/4.14.52-0-virt/kernel/drivers/net/virtio_net.ko /lib/modules/4.14.52-0-virt/kernel/drivers/net/virtio_net.ko
+COPY --from=kernel /lib/modules /lib/modules
+
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates musl tini util-linux \
     openssh openssh-client rng-tools ansible \
     #bash iproute2 iptables ebtables ipvsadm bridge-utils \
@@ -55,11 +60,6 @@ COPY --from=build /sbin /sbin
 
 COPY --from=build /etc/ /etc/
 
-# Get some modules for virtio
-#COPY --from=kernel /lib/modules/4.14.52-0-virt/kernel/drivers/virtio/virtio.ko /lib/modules/4.14.52-0-virt/kernel/drivers/virtio/virtio.ko
-#COPY --from=kernel /lib/modules/4.14.52-0-virt/kernel/drivers/net/virtio_net.ko /lib/modules/4.14.52-0-virt/kernel/drivers/net/virtio_net.ko
-COPY --from=kernel /lib/modules /lib/modules
-
 # Deleted cached packages
 RUN rm -rf /var/cache/apk/* && mkdir -p /var/cache/apk
 
@@ -71,6 +71,10 @@ COPY files/init /init
 COPY files/bin /bin/
 COPY files/etc/ /etc/
 COPY files/usr/ /usr/
+
+# Prepare data directory for mount
+# TODO modify/update /etc/fstab to handle v9 for hyperkit version.
+RUN mkdir -p /data
 
 # Set an ssh key
 RUN mkdir -p /etc/ssh /root/.ssh && chmod 0700 /root/.ssh
