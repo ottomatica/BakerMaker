@@ -101,6 +101,7 @@ COPY files/usr/ /usr/
 # Prepare data directory for mount
 # TODO modify/update /etc/fstab to handle v9 for hyperkit version.
 RUN mkdir -p /data
+RUN mkdir -p /mnt/disk
 
 # Set an ssh key
 RUN mkdir -p /etc/ssh /root/.ssh && chmod 0700 /root/.ssh
