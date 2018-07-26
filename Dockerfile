@@ -63,7 +63,7 @@ RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-
     openssh openssh-client rng-tools ansible \
     #bash iproute2 iptables ebtables ipvsadm bridge-utils \
     dhcpcd virtualbox-guest-additions virtualbox-guest-modules-virt \
-    libseccomp
+    libseccomp e2fsprogs
     #openrc
 
 RUN rm -rf /var/cache/apk && mkdir -p /var/cache/apk
