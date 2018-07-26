@@ -2,3 +2,6 @@
 
 # mount data share
 mount -t vboxsf -o uid=1000,gid=1000 vbox-share-0 /data
+
+# mount disk
+mount -t ext4 -o uid=1000,gid=1000 /dev/sda1 /mnt/disk
