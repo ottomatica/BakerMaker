@@ -22,19 +22,24 @@ USER root
 RUN mkdir -p /lib/apk/db /run
 
 RUN rm -rf /var/cache/apk && mkdir /var/cache/apk
+#RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+
+# 
+
+RUN mkdir -p /lib/modules/4.14.51-linuxkit
+RUN touch /lib/modules/4.14.51-linuxkit/modules.builtin
 
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates musl tini util-linux \
     openssh openssh-client rng-tools ansible \
     #bash iproute2 iptables ebtables ipvsadm bridge-utils \
-    dhcpcd 
+    dhcpcd virtualbox-guest-additions virtualbox-guest-modules-virthardened
     #openrc
 
-RUN rm -rf /var/cache/apk && mkdir /var/cache/apk
+RUN rm -rf /var/cache/apk && mkdir -p /var/cache/apk
 
 RUN mkdir -p /etc/ssl/certs
 RUN mkdir -p /lib/firmware
 RUN mkdir -p /lib/mdev
-RUN mkdir -p /lib/modules
 RUN mkdir -p /lib/rc
 
 COPY --from=build2 /go/src/github.com/moby/vpnkit/go/build/vpnkit-iptables-wrapper.linux /usr/bin/vpnkit-iptables-wrapper
@@ -51,7 +56,7 @@ COPY --from=build /sbin /sbin
 COPY --from=build /etc/ /etc/
 
 # Deleted cached packages
-RUN rm -rf /var/cache/apk/*
+RUN rm -rf /var/cache/apk/* && mkdir -p /var/cache/apk
 
 # remove some config relying on openrc
 #RUN rm -rf /etc/init.d/dhcpcd 

@@ -2,3 +2,6 @@ node_modules/
 alpine-vm/
 alpine-tmp/
 file.img.gz
+baker-mount/
+alpine-iso/
+baker.iso
