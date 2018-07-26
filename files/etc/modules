@@ -1,4 +1,5 @@
 af_packet
-vhost
-vhost_scci
-vhost_net
+rng-core
+virtio
+virtio_net
+vboxsf

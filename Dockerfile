@@ -80,6 +80,4 @@ RUN mkdir -p /data
 RUN mkdir -p /etc/ssh /root/.ssh && chmod 0700 /root/.ssh
 RUN echo $SSHPUBKEY > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys
 
-RUN echo "" >> /etc/modules && echo "virtio_net" >> /etc/modules && echo "virtio" >> /etc/modules && echo "vboxsf" >> /etc/modules
-
 #chown -R root:root /root/.ssh/
