@@ -14,7 +14,7 @@ chmod +w baker-mount/boot/vmlinuz-virt
 
 # update
 cp /tmp/file.img.gz baker-mount/boot/initramfs-virt
-cp kernel/sshd-kernel baker-mount/boot/vmlinuz-virt
+#cp kernel/sshd-kernel baker-mount/boot/vmlinuz-virt
 
 # Needs `brew install cdrtools`
 mkisofs -b boot/syslinux/isolinux.bin -c boot/syslinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table   -V baker -o baker.iso -J -R baker-mount/

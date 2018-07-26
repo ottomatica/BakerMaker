@@ -14,6 +14,11 @@ FROM alpine:latest AS build
 RUN mkdir -p /lib/apk/db /run
 RUN apk add --no-cache --initdb openrc
 
+FROM alpine:latest AS kernel
+RUN mkdir -p /lib/apk/db /run
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.8/main" >> /etc/apk/repositories
+RUN apk add --no-cache --initdb linux-virt
+
 FROM alpine:latest AS install
 # the public key that is authorized to connect to this instance.
 ARG SSHPUBKEY
@@ -22,17 +27,12 @@ USER root
 RUN mkdir -p /lib/apk/db /run
 
 RUN rm -rf /var/cache/apk && mkdir /var/cache/apk
-#RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
-
-# 
-
-RUN mkdir -p /lib/modules/4.14.51-linuxkit
-RUN touch /lib/modules/4.14.51-linuxkit/modules.builtin
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.8/community" >> /etc/apk/repositories
 
 RUN apk add --update --no-cache --initdb alpine-baselayout apk-tools busybox ca-certificates musl tini util-linux \
     openssh openssh-client rng-tools ansible \
     #bash iproute2 iptables ebtables ipvsadm bridge-utils \
-    dhcpcd virtualbox-guest-additions virtualbox-guest-modules-virthardened
+    dhcpcd virtualbox-guest-additions virtualbox-guest-modules-virt
     #openrc
 
 RUN rm -rf /var/cache/apk && mkdir -p /var/cache/apk
@@ -55,6 +55,11 @@ COPY --from=build /sbin /sbin
 
 COPY --from=build /etc/ /etc/
 
+# Get some modules for virtio
+#COPY --from=kernel /lib/modules/4.14.52-0-virt/kernel/drivers/virtio/virtio.ko /lib/modules/4.14.52-0-virt/kernel/drivers/virtio/virtio.ko
+#COPY --from=kernel /lib/modules/4.14.52-0-virt/kernel/drivers/net/virtio_net.ko /lib/modules/4.14.52-0-virt/kernel/drivers/net/virtio_net.ko
+COPY --from=kernel /lib/modules /lib/modules
+
 # Deleted cached packages
 RUN rm -rf /var/cache/apk/* && mkdir -p /var/cache/apk
 
@@ -70,5 +75,7 @@ COPY files/usr/ /usr/
 # Set an ssh key
 RUN mkdir -p /etc/ssh /root/.ssh && chmod 0700 /root/.ssh
 RUN echo $SSHPUBKEY > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys
+
+RUN echo "" >> /etc/modules && echo "virtio_net" >> /etc/modules && echo "virtio" >> /etc/modules && echo "vboxsf" >> /etc/modules
 
 #chown -R root:root /root/.ssh/
