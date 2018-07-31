@@ -9,7 +9,7 @@ pid=`cat ~/Library/Baker/run/bakerformac-vpnkit.pid`
 
 if [ ! `ps -a | grep $pid | grep vpnkit.exe` ]; then
     echo "Starting vpnkit"
-    $SCRIPTPATH/vendor/vpnkit.exe --host-names baker.for.mac.localhost --debug --ethernet /tmp/bakerformac.sock --port /tmp/bakerformac.port.socket --vsock-path /tmp/connect  >~/Library/Baker/run/bakerformac-vpnkit.log 2>&1 &
+    $SCRIPTPATH/../vendor/vpnkit.exe --host-names baker.for.mac.localhost --debug --ethernet /tmp/bakerformac.sock --port /tmp/bakerformac.port.socket --vsock-path /tmp/connect  >~/Library/Baker/run/bakerformac-vpnkit.log 2>&1 &
     echo $! > ~/Library/Baker/run/bakerformac-vpnkit.pid
 fi
 

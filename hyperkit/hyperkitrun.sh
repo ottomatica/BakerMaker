@@ -6,7 +6,7 @@ HYPERKIT="hyperkit"
 INITRD=$SCRIPTPATH/file.img.gz
 #KERNEL="kernel/vmlinuz-virt"
 #KERNEL="kernel/vmlinuz-vanilla"
-KERNEL=$SCRIPTPATH/kernel/sshd-kernel
+KERNEL=$SCRIPTPATH/../kernel/sshd-kernel
 
 CMDLINE="modules=virtio_net console=tty0 console=ttyS0 console=ttyAMA0"
 
@@ -29,4 +29,4 @@ ACPI="-A"
 FORWARD="-s 7,virtio-sock,guest_cid=3,path=/tmp/,guest_forwards=2000"
 RND="-s 2,virtio-rnd"
 
-$SCRIPTPATH/vendor/hyperkit $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $PORT $FORWARD $IMG_CD $IMG_HDD $UUID -f kexec,$KERNEL,$INITRD,"$CMDLINE"
+$SCRIPTPATH/../vendor/hyperkit $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $PORT $FORWARD $IMG_CD $IMG_HDD $UUID -f kexec,$KERNEL,$INITRD,"$CMDLINE"
