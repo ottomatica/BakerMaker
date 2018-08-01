@@ -16,5 +16,7 @@ chown -R root:root /root
 # 9p-virtio
 mkdir /port
 mount -t 9p -o trans=virtio,version=9p2000.L port /port
+mkdir /share
+mount -t 9p -o trans=virtio share /share 
 
 exec /sbin/init

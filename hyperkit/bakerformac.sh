@@ -5,6 +5,15 @@ mkdir -p ~/Library/Baker/run
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 pid=`cat ~/Library/Baker/run/bakerformac-vpnkit.pid`
 
+# render 9pfs.plist to set username and exe path
+sed "s/{{username}}/$USER/g" 9pfs.plist.mustache > 9pfs.plist
+sed -i "" "s;{{exe}};$(dirname $SCRIPTPATH)/vendor/u9fs;g" 9pfs.plist
+
+if ! `launchctl list | grep "com.baker.u9fs" > /dev/null`; then
+    echo "Starting u9fs"
+    launchctl load 9pfs.plist
+fi
+
 #mkfifo /tmp/vsocket
 
 if [ ! `ps -a | grep $pid | grep vpnkit.exe` ]; then

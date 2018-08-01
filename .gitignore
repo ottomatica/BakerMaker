@@ -5,3 +5,4 @@ file.img.gz
 baker-mount/
 alpine-iso/
 baker.iso
+hyperkit/9pfs.plist
