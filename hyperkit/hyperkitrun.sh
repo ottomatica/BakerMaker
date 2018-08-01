@@ -19,7 +19,7 @@ if $USEVPNKIT; then
 fi
 
 #IMG_CD="-s 3,ahci-cd,/somepath/somefile.iso"
-#IMG_HDD="-s 4,virtio-blk,/somepath/somefile.img"
+IMG_HDD="-s 4,virtio-blk,/tmp/bakerdisk.img"
 PORT="-s 5,virtio-9p,path=/tmp/bakerformac.port.socket,tag=port"
 SHARE="-s 6,virtio-9p,path=/tmp/bakershare.socket,tag=share"
 PCI_DEV="-s 0:0,hostbridge -s 31,lpc"
