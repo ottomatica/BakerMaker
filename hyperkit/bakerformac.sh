@@ -16,7 +16,9 @@ fi
 
 #mkfifo /tmp/vsocket
 
-if [ ! `ps -a | grep $pid | grep vpnkit.exe` ]; then
+ps -a | grep $pid | grep vpnkit.exe
+vpnkitRunning=$?
+if test $vpnkitRunning -ne 0; then
     echo "Starting vpnkit"
     $SCRIPTPATH/../vendor/vpnkit.exe --host-names baker.for.mac.localhost --debug --ethernet /tmp/bakerformac.sock --port /tmp/bakerformac.port.socket --vsock-path /tmp/connect  >~/Library/Baker/run/bakerformac-vpnkit.log 2>&1 &
     echo $! > ~/Library/Baker/run/bakerformac-vpnkit.pid
