@@ -1,0 +1,14 @@
+#!/bin/sh
+
+ls /dev > /tmp/debug
+
+# only create filesystem if doesn't exist
+blkid | grep "/dev/vda"
+fsExists=$?
+if test $fsExists -ne 0 ; then
+	mkfs.ext4 /dev/vda
+fi
+
+# created /mnt/disk and mount disk
+mkdir -p /mnt/disk
+mount -t ext4 /dev/vda /mnt/disk
