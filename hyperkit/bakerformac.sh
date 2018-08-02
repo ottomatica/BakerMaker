@@ -8,19 +8,22 @@ pid=`cat ~/Library/Baker/run/bakerformac-vpnkit.pid`
 # render 9pfs.plist to set username and exe path
 sed "s/{{username}}/$USER/g" 9pfs.plist.mustache > 9pfs.plist
 sed -i "" "s;{{exe}};$(dirname $SCRIPTPATH)/vendor/u9fs;g" 9pfs.plist
+sed -i "" "s;{{socket}};/Users/$USER/Library/Baker/sockets/bakershare.socket;g" 9pfs.plist
 
 if ! `launchctl list | grep "com.baker.u9fs" > /dev/null`; then
     echo "Starting u9fs"
     launchctl load 9pfs.plist
 fi
 
+SOCKETDIR=/Users/$USER/Library/Baker/sockets
+mkdir -p $SOCKETDIR
 #mkfifo /tmp/vsocket
 
 ps -a | grep $pid | grep vpnkit.exe
 vpnkitRunning=$?
 if test $vpnkitRunning -ne 0; then
     echo "Starting vpnkit"
-    $SCRIPTPATH/../vendor/vpnkit.exe --host-names baker.for.mac.localhost --debug --ethernet /tmp/bakerformac.sock --port /tmp/bakerformac.port.socket --vsock-path /tmp/connect  >~/Library/Baker/run/bakerformac-vpnkit.log 2>&1 &
+    $SCRIPTPATH/../vendor/vpnkit.exe --host-names baker.for.mac.localhost --debug --ethernet $SOCKETDIR/bakerformac.sock --port $SOCKETDIR/bakerformac.port.socket --vsock-path $SOCKETDIR/connect  >~/Library/Baker/run/bakerformac-vpnkit.log 2>&1 &
     echo $! > ~/Library/Baker/run/bakerformac-vpnkit.pid
 fi
 
