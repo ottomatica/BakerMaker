@@ -9,6 +9,7 @@ INITRD=$SCRIPTPATH/file.img.gz
 KERNEL=$SCRIPTPATH/../kernel/sshd-kernel
 
 SOCKETDIR=/Users/$USER/Library/Baker/sockets
+DISKDIR=/Users/$USER/Library/Baker/disks
 
 CMDLINE="modules=virtio_net console=tty0 console=ttyS0 console=ttyAMA0"
 
@@ -21,7 +22,7 @@ if $USEVPNKIT; then
 fi
 
 #IMG_CD="-s 3,ahci-cd,/somepath/somefile.iso"
-IMG_HDD="-s 4,virtio-blk,/tmp/bakerdisk.img"
+IMG_HDD="-s 4,virtio-blk,$DISKDIR/bakerdisk.img"
 PORT="-s 5,virtio-9p,path=$SOCKETDIR/bakerformac.port.socket,tag=port"
 SHARE="-s 6,virtio-9p,path=$SOCKETDIR/bakershare.socket,tag=share"
 PCI_DEV="-s 0:0,hostbridge -s 31,lpc"
