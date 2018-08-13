@@ -110,3 +110,6 @@ RUN echo $SSHPUBKEY > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authori
 COPY --from=myrunc /usr/bin/runc /usr/bin/
 COPY --from=myrunc /etc/init.d/ /etc/init.d/
 COPY --from=myrunc /etc/shutdown.d/ /etc/shutdown.d/
+
+# Don't need floppy group
+RUN sed -i '/floppy:x:11:root/d' /etc/group
